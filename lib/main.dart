@@ -33,11 +33,9 @@ class _QuizPageState extends State<QuizPage> {
     'A slug\'s blood is green.'
   ];
 
-  int questionNumber = 0;
+  List<bool> answers = [false, true, true];
 
-  void addNumber() {
-    questionNumber = questionNumber < 2 ? questionNumber + 1 : 0;
-  }
+  int questionNumber = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +75,23 @@ class _QuizPageState extends State<QuizPage> {
               onPressed: () {
                 //The user picked true.
                 setState(() {
-                  addNumber();
+                  if (answers[questionNumber] == true) {
+                    scoreKeeper.add(
+                      Icon(
+                        Icons.check,
+                        color: Colors.green,
+                      ),
+                    );
+                  } else {
+                    scoreKeeper.add(
+                      Icon(
+                        Icons.close,
+                        color: Colors.red,
+                      ),
+                    );
+                  }
+
+                  questionNumber = questionNumber < 2 ? questionNumber + 1 : 0;
                 });
               },
             ),
@@ -98,7 +112,23 @@ class _QuizPageState extends State<QuizPage> {
               onPressed: () {
                 //The user picked false.
                 setState(() {
-                  addNumber();
+                  if (answers[questionNumber] == false) {
+                    scoreKeeper.add(
+                      Icon(
+                        Icons.check,
+                        color: Colors.green,
+                      ),
+                    );
+                  } else {
+                    scoreKeeper.add(
+                      Icon(
+                        Icons.close,
+                        color: Colors.red,
+                      ),
+                    );
+                  }
+
+                  questionNumber = questionNumber < 2 ? questionNumber + 1 : 0;
                 });
               },
             ),
