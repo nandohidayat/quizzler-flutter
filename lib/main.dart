@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'quiz_brain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 QuizBrain quizBrain = QuizBrain();
 
@@ -34,17 +35,40 @@ class _QuizPageState extends State<QuizPage> {
     bool correctAnswer = quizBrain.getCorrectAnswer();
 
     setState(() {
-      scoreKeeper.add(
-        correctAnswer == userPickedAnswer
-            ? Icon(
-                Icons.check,
-                color: Colors.green,
-              )
-            : Icon(
-                Icons.close,
-                color: Colors.red,
+      if (quizBrain.isFinished()) {
+        Alert(
+          context: context,
+          title: 'Finished!',
+          desc: 'You\'ve reached the end of the quiz.',
+          buttons: [
+            DialogButton(
+              child: Text(
+                'CANCEL',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
               ),
-      );
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        ).show();
+
+        quizBrain.reset();
+        scoreKeeper = [];
+      } else {
+        scoreKeeper.add(
+          correctAnswer == userPickedAnswer
+              ? Icon(
+                  Icons.check,
+                  color: Colors.green,
+                )
+              : Icon(
+                  Icons.close,
+                  color: Colors.red,
+                ),
+        );
+      }
 
       quizBrain.nextQuestion();
     });
